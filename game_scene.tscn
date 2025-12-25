@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqllxpvpc6dqt"]
+
+[ext_resource type="PackedScene" uid="uid://dayog1o1ysthj" path="res://Player.tscn" id="1_sqdgy"]
+[ext_resource type="PackedScene" uid="uid://d0vnu4ihig770" path="res://card_deck.tscn" id="2_ds3pb"]
+
+[sub_resource type="GDScript" id="GDScript_d4mfh"]
+script/source = "extends Node
+class_name gameScript
+@export var Player: PackedScene
+@export var card_deck: PackedScene
+var playersInGame = []
+var winner = null;
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var cardDeck = card_deck.instantiate();
+	$GameTimer.start()
+	add_child(cardDeck)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+func GameOver():
+	var localwinner = -1
+	for i in range(playersInGame.size()):
+		playersInGame[i].GetScore()
+
+func _on_game_timer_timeout():
+	GameOver()
+	pass # Replace with function body.
+
+
+func _on_player_idletimer_timeout():
+	pass # Replace with function body.
+"
+
+[node name="GameScene" type="Node"]
+script = SubResource("GDScript_d4mfh")
+Player = ExtResource("1_sqdgy")
+card_deck = ExtResource("2_ds3pb")
+
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 120.0
+
+[node name="PlayerIdletimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
+[connection signal="timeout" from="PlayerIdletimer" to="." method="_on_player_idletimer_timeout"]
