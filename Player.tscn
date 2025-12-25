@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://dayog1o1ysthj"]
+
+[sub_resource type="GDScript" id="GDScript_dad2g"]
+resource_name = "PlayerScript"
+script/source = "extends Node2D
+class_name Player
+var cardsInHand = []
+var points = 0
+	
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+func AddCard(newCard):
+	cardsInHand.append(newCard)
+func AddPoints(morePoints):
+	points += points
+func GetScore():
+	return points
+"
+
+[node name="Player" type="Node2D"]
+script = SubResource("GDScript_dad2g")

@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0vnu4ihig770"]
+
+[ext_resource type="PackedScene" uid="uid://cp2enwvmyidic" path="res://card.tscn" id="1_bjc14"]
+
+[sub_resource type="GDScript" id="GDScript_bhann"]
+resource_name = "CardDeckScirpt"
+script/source = "extends Node2D
+class_name Deck
+@export var card_scene: PackedScene
+#var pointValue = 0
+#var timeValue = 0
+#var usesPoints = false
+#var changesTime = false
+#var setsTime = false
+var cardNames = [\"StepNephew\",\"SidwaysLance\",\"Smedward\",\"Cliff\"]
+var pointValue = [0,0,4,5]
+var timeValue = [120,180,240,180]
+var changeTimeBool = [true,true,true,true]
+var setTimebool = [false,false,false,false]
+var CardsInDeck = []
+var CardsInDiscard = []
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	FillDeck()
+	pass # Replace with function body.
+func FillDeck():
+	var newCard
+	for i in range(cardNames.size()):
+		newCard = card_scene.instantiate()
+		newCard.SetValues(cardNames[i], pointValue[i], timeValue[i],changeTimeBool[i],setTimebool[i])
+		CardsInDeck.append(newCard)
+		
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+func ShuffleDeck():
+	pass
+func DrawCard():
+	var currentCard = CardsInDeck.pop_front()
+	$Player.AddCard(currentCard)
+"
+
+[node name="CardDeck" type="Node2D"]
+script = SubResource("GDScript_bhann")
+card_scene = ExtResource("1_bjc14")
