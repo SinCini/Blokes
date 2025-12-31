@@ -19,6 +19,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
 	pass
 func GameOver():
 	var localwinner = -1
@@ -35,10 +36,7 @@ func GetGameTime():
 	return $GameTimer.get_time_left()
 func GetGameTimer():
 	return $GameTimer
-func AddPlayer():
-	var newPlayer = Player.instantiate()
-	newPlayer.SetPlayerID(playersInGame.size())
-	playersInGame.append(newPlayer)
+	
 "
 
 [node name="GameScene" type="Node"]

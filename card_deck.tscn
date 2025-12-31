@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0vnu4ihig770"]
+[gd_scene load_steps=4 format=3 uid="uid://d0vnu4ihig770"]
 
 [ext_resource type="PackedScene" uid="uid://cp2enwvmyidic" path="res://card.tscn" id="1_bjc14"]
+[ext_resource type="Texture2D" uid="uid://cug4uk7edur0h" path="res://F8tuCZwWIAA6UH2.png" id="2_tx2de"]
 
 [sub_resource type="GDScript" id="GDScript_bhann"]
 resource_name = "CardDeckScirpt"
@@ -12,9 +13,9 @@ class_name Deck
 #var usesPoints = false
 #var changesTime = false
 #var setsTime = false
-var cardNames = [\"StepNephew\",\"SidwaysLance\",\"Smedward\",\"Cliff\"]
-var pointValue = [0,0,4,5]
-var timeValue = [120,180,240,180]
+var cardNames = [\"StepNephew\",\"SidewaysLance\",\"McFondals\",\"Grant\"]
+var pointValue = [0,0,0,0]
+var timeValue = [120,180,240,300]
 var changeTimeBool = [true,true,true,true]
 var setTimebool = [false,false,false,false]
 var CardsInDeck = []
@@ -22,24 +23,37 @@ var CardsInDiscard = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	FillDeck()
+	ShuffleDeck()
 	pass # Replace with function body.
 func FillDeck():
 	var newCard
 	for i in range(cardNames.size()):
 		newCard = card_scene.instantiate()
 		newCard.SetValues(cardNames[i], pointValue[i], timeValue[i],changeTimeBool[i],setTimebool[i])
+		add_child(newCard)
+		newCard.SetSprite(i%10, i/10)
 		CardsInDeck.append(newCard)
-		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 func ShuffleDeck():
+	CardsInDeck.shuffle()
 	pass
 func DrawCard():
 	var currentCard = CardsInDeck.pop_front()
-	$Player.AddCard(currentCard)
+	remove_child(currentCard)
+	return currentCard
+func Discard(card):
+	CardsInDiscard.append(card)
+	card.SetSpriteActive(false)
+	
 "
 
 [node name="CardDeck" type="Node2D"]
 script = SubResource("GDScript_bhann")
 card_scene = ExtResource("1_bjc14")
+
+[node name="DeckSprite" type="Sprite2D" parent="."]
+position = Vector2(69, 89)
+scale = Vector2(0.25, 0.222)
+texture = ExtResource("2_tx2de")

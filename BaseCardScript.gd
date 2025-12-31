@@ -1,6 +1,7 @@
 extends Node2D
 class_name Card
-
+var timer
+var parentNode
 var cardName = "test"
 var pointValue = 0
 var timeValue = 0
@@ -13,29 +14,30 @@ func SetValues(name1, points, time, changetime, settime):
 	timeValue = time
 	changesTime = changetime
 	setsTime = settime
-	
+func _enter_tree():
+	parentNode = get_parent()
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-func _UseCard():
-	if(usesPoints):
-		$Player.AddPoint()
-		pass
+	timer = get_tree().current_scene.GetGameTimer()
+func UseCard():
+	parentNode.AddPoints()
 	if(setsTime):
-		AdjustTime($timer)
-		pass
+		AdjustTime()
 	else: if(changesTime):
-		SetTime($timer)
-		pass
-	pass
-func AdjustTime(timer):
-	var tempTime = timer.get_wait_time()
+		SetTime()
+func AdjustTime():
+	var tempTime = timer.get_time_left()
 	tempTime += timeValue
 	timer.set_wait_time(tempTime)
 	pass
-func SetTime(timer):
-	timer.set_wait_time(timeValue)
+func SetTime():
+	timer.start(timeValue)
 	pass
-func AddPoint(Player):
-	Player.AddPoints(pointValue)
-	pass
+func SetSprite(x, y):
+	#voidset_cell(layer: int, coords: Vector2i, source_id: int = -1, atlas_coords: Vector2i = Vector2i(-1, -1)
+	$CardSprite.set_cell(0, Vector2i(0,0), 1, Vector2i(x,y))
+func SetSpriteActive(boolean):
+	if(boolean):
+		$CardSprite.show()
+	else:
+		$CardSprite.hide()

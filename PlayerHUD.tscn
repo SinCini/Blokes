@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7yjc05hnyhd5"]
+
+[sub_resource type="GDScript" id="GDScript_fqin5"]
+resource_name = "PlayerHUDScript"
+script/source = "extends CanvasLayer
+var parent
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	parent = get_parent()
+	pass # Replace with function body.
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+func _on_draw_bloke_pressed():
+	parent.Draw()
+	pass # Replace with function body.
+func _on_use_bloke_pressed():
+	parent.UseBloke()
+	pass # Replace with function body.
+func _on_roll_dice_pressed():
+	parent.RolleDice()
+	pass # Replace with function body.
+"
+
+[node name="PlayerHUD" type="CanvasLayer"]
+script = SubResource("GDScript_fqin5")
+
+[node name="DrawBloke" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 146.0
+offset_top = -128.0
+offset_right = 196.0
+offset_bottom = -97.0
+grow_vertical = 0
+text = "Draw"
+
+[node name="UseBloke" type="Button" parent="."]
+visible = false
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 223.0
+offset_top = -130.0
+offset_right = 308.0
+offset_bottom = -99.0
+grow_vertical = 0
+text = "Use Bloke"
+
+[node name="RollDice" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 37.0
+offset_top = -127.0
+offset_right = 112.0
+offset_bottom = -96.0
+grow_vertical = 0
+text = "Roll Dice"
+
+[node name="Button" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="ScoreBoard" type="Label" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[connection signal="pressed" from="DrawBloke" to="." method="_on_draw_bloke_pressed"]
+[connection signal="pressed" from="UseBloke" to="." method="_on_use_bloke_pressed"]
+[connection signal="pressed" from="RollDice" to="." method="_on_roll_dice_pressed"]

@@ -1,26 +1,65 @@
-[gd_scene load_steps=2 format=3 uid="uid://dayog1o1ysthj"]
+[gd_scene load_steps=3 format=3 uid="uid://dayog1o1ysthj"]
+
+[ext_resource type="PackedScene" uid="uid://c7yjc05hnyhd5" path="res://PlayerHUD.tscn" id="1_s446i"]
 
 [sub_resource type="GDScript" id="GDScript_dad2g"]
 resource_name = "PlayerScript"
 script/source = "extends Node2D
 class_name Player
+var playerID
+var GameScene
+var Deck
 var cardsInHand = []
 var points = 0
-	
+var usingBloke = false
+var drawBloke = false
+var rollDice = false
+var playerTurn = false
+var selectedBloke = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GameScene = get_parent()
+	Deck = GameScene.GetDeck()
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-func AddCard(newCard):
-	cardsInHand.append(newCard)
+func Draw():
+	if(Deck != null):
+		var newCard = Deck.DrawCard()
+		add_child(newCard)
+		cardsInHand.append(newCard)
+		if(cardsInHand.size() != 0):
+			$PlayerHUD/UseBloke.show()
+		SetTurn(false)
+		newCard.SetSpriteActive(true)
+	else:
+		Deck = GameScene.GetDeck()
+		Draw()
+func UseBloke():
+	var currentCard = cardsInHand[selectedBloke]
+	SetTurn(false)
+	currentCard.Use()
+	if(cardsInHand.size() == 0):
+		$PlayerHUD/UseBloke.hide()
+	Deck.Discard(cardsInHand[selectedBloke])
+
 func AddPoints(morePoints):
-	points += points
+	points += morePoints
 func GetScore():
 	return points
+func SetTurn(turn):
+	playerTurn = turn
+	if(turn):
+		$PlayerHUD.show()
+	else:
+		$PlayerHUD.hide()
+func SetPlayerID(ID):
+	playerID = ID
 "
 
 [node name="Player" type="Node2D"]
 script = SubResource("GDScript_dad2g")
+
+[node name="PlayerHUD" parent="." instance=ExtResource("1_s446i")]
