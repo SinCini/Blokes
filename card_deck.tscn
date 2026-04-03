@@ -13,15 +13,46 @@ class_name Deck
 #var usesPoints = false
 #var changesTime = false
 #var setsTime = false
-var cardNames = [\"StepNephew\",\"SidewaysLance\",\"McFondals\",\"Grant\"]
-var pointValue = [0,0,0,0]
-var timeValue = [120,180,240,300]
-var changeTimeBool = [true,true,true,true]
-var setTimebool = [false,false,false,false]
+var cardNames = [\"StepNephew\",\"SidewaysLance\",\"McFondals\",\"Grant\", \"Nate to the Party\", \"The Chief\", \"Bill Doorstop\",\"The Minister\", \"The twins\", \"Tammy Tip Toe\",
+				\"Smedward\", \"Cliff\", \"Wincent\", \"Flimber Wimber\", \"Almonds\", \"The Squares\",\"Mr. Stop\", \"Idris Elba\", \"Hot Sauce Mumbango\", \"Doctor Mushroom\",
+				\"Goblin Time\", \"Oh...Oh God\", \"Orsen Wells\", \"Heterosecual Jester\", \"Uncle Bacon\", \"No\", \"No 2\", \"Nei's a Deal\", \"Investin' Bendan\", \"I'm In\", 
+				\"What?\", \"Steven Glockenspielberg\", \"5 Cans of 7Down\", \"Chelsea Football Club\", \"Paul\", \"Donna's Kebab\", \"Bones MC. Skeleton\", \"Scooby Don't\", \"Scambadi Lameeni\", \"Coin\", 
+				\"Crease Pirate\", \"Cool Ghosts\", \"Idea Guy\", \"Danewinntendo Direct\", \"The Nonce is here\"]
+var pointValues = [0,0,0,0,0,0,1,2,3,4,
+				4,5,5,10,10,1,1,1,0,2,
+				2,2,0,0,0,0,3,0,0,0,
+				2,0,7,0,0,1,10,2,3,4,
+				5,8,5,4,0]
+var timeValues = [120,180,240,300,360,600,240,180,180,300,
+				360,180,600,120,600,120,300,480,2,0,
+				0,2,0,0.5,120,0,0,0,0,
+				0,0,0.5,300,-120,60,-300,60,0,0,0,
+				0,0,0,0,0]
+var changeTimeBool = [true,true,true,true,true,true,true,true,true,true,
+					true,true,true,true,true,true,true,true,false,false,
+					false,true,false,false,false,false,false,false,false,false,
+					false,false,true,true,false,true,false,false,false,false,
+					false,false,false,false,false]
+var setTimeBool = [false,false,false,false, false, false, false, false, false, false, 
+				false, false, false, false, false, false, false, false, true, false,
+				false, false, false, true,true, false, false, false, false, false, 
+				false,true, false, false,true, false, false, false, false, false,
+				false, false, false, false, false]
+var useD6 = [false, false,false, false, false, false, false, false, false, false,
+			false, false, false, false, false, false, false, false, false, false,
+			true, true, false, false, false, false, false, false, false, false,
+			true, false, false, false, false, false, false, false, false, false,
+			false, false, false, false, false]
 var CardsInDeck = []
 var CardsInDiscard = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print(cardNames.size())
+	print(pointValues.size())
+	print(timeValues.size())
+	print(changeTimeBool.size())
+	print(setTimeBool.size())
+	print(useD6.size())	
 	FillDeck()
 	ShuffleDeck()
 	pass # Replace with function body.
@@ -29,23 +60,41 @@ func FillDeck():
 	var newCard
 	for i in range(cardNames.size()):
 		newCard = card_scene.instantiate()
-		newCard.SetValues(cardNames[i], pointValue[i], timeValue[i],changeTimeBool[i],setTimebool[i])
+		newCard.SetValues(cardNames[i], pointValues[i], timeValues[i],changeTimeBool[i],setTimeBool[i],useD6[i])
 		add_child(newCard)
 		newCard.SetSprite(i%10, i/10)
 		CardsInDeck.append(newCard)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+		newCard.position = $Deck.position
+	SetDeckText()
 func ShuffleDeck():
 	CardsInDeck.shuffle()
 	pass
 func DrawCard():
 	var currentCard = CardsInDeck.pop_front()
 	remove_child(currentCard)
+	if(CardsInDeck.size() == 0):
+		RefillDeck()
+	SetDeckText()
 	return currentCard
 func Discard(card):
-	CardsInDiscard.append(card)
-	card.SetSpriteActive(false)
+	var cardName = card.GetCardName()
+	add_child(card)
+	if(cardName == \"Nei's a Deal\" || cardName == \"Investin' Bendan\"):
+		card.queue_free()
+	else:	
+		CardsInDiscard.append(card)
+		card.SetActive(false)
+		SetDiscardText()
+		card.position = $Discard.position
+func SetDeckText():
+	$DeckText.set_text(\"Deck: \" + str(CardsInDeck.size()))
+func SetDiscardText():
+	$DiscardText.set_text(\"Discard: \" + str(CardsInDiscard.size()))
+func RefillDeck():
+	while(!CardsInDiscard.is_empty()):
+		CardsInDeck.append(CardsInDiscard.pop_front())
+	SetDiscardText()
+	ShuffleDeck()	
 	
 "
 
@@ -53,7 +102,27 @@ func Discard(card):
 script = SubResource("GDScript_bhann")
 card_scene = ExtResource("1_bjc14")
 
-[node name="DeckSprite" type="Sprite2D" parent="."]
-position = Vector2(69, 89)
+[node name="DiscardText" type="RichTextLabel" parent="."]
+offset_left = 687.0
+offset_top = 185.0
+offset_right = 798.0
+offset_bottom = 225.0
+text = "Discarded: 0"
+
+[node name="Discard" type="Sprite2D" parent="."]
+position = Vector2(738, 322)
+rotation = 3.14159
 scale = Vector2(0.25, 0.222)
 texture = ExtResource("2_tx2de")
+
+[node name="Deck" type="Sprite2D" parent="."]
+position = Vector2(552, 322)
+scale = Vector2(0.25, 0.222)
+texture = ExtResource("2_tx2de")
+
+[node name="DeckText" type="RichTextLabel" parent="."]
+offset_left = 498.0
+offset_top = 182.0
+offset_right = 611.0
+offset_bottom = 222.0
+text = "Deck:"

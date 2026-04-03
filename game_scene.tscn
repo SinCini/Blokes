@@ -9,22 +9,30 @@ script/source = "extends Node
 class_name gameScript
 @export var Player: PackedScene
 @export var card_deck: PackedScene
+var LobbySize 
 var playersInGame = []
-var winner = null;
+var winner = null
 var cardDeck
+var lastPlayedBloke = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	cardDeck = card_deck.instantiate();
+	cardDeck = card_deck.instantiate()
 	add_child(cardDeck)
+	$GameTimer.one_shot = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 func GameOver():
-	var localwinner = -1
+	var localWinner = -1
 	var localScore = -1
+	var tempScore
 	for i in range(playersInGame.size()):
-		playersInGame[i].GetScore()
+		tempScore = playersInGame[i].GetScore()
+		if(tempScore > localScore):
+			localWinner = i
+			localScore = tempScore
+	return localWinner
 func GetDeck():
 	return cardDeck
 func _on_game_timer_timeout():
