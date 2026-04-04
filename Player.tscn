@@ -1,26 +1,93 @@
-[gd_scene load_steps=2 format=3 uid="uid://dayog1o1ysthj"]
+[gd_scene load_steps=3 format=3 uid="uid://dayog1o1ysthj"]
+
+[ext_resource type="PackedScene" uid="uid://c7yjc05hnyhd5" path="res://PlayerHUD.tscn" id="1_s446i"]
 
 [sub_resource type="GDScript" id="GDScript_dad2g"]
 resource_name = "PlayerScript"
 script/source = "extends Node2D
 class_name Player
+var playerID
+var GameScene
+var Deck
 var cardsInHand = []
 var points = 0
-	
+var usingBloke = false
+var drawBloke = false
+var rollDice = false
+var playerTurn = false
+var selectedBloke
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GameScene = get_parent()
+	Deck = GameScene.GetDeck()
 	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-func AddCard(newCard):
-	cardsInHand.append(newCard)
+func Draw():
+	if(Deck != null):
+		var position = $hand.global_position
+		position += (cardsInHand.size() * Vector2(100, 0))
+		var newCard = Deck.DrawCard()
+		add_child(newCard)
+		cardsInHand.append(newCard)
+		newCard.show()
+		newCard.set_position(position)
+		#SetTurn(false)
+		newCard.SetActive(true)
+	else:
+		Deck = GameScene.GetDeck()
+		Draw()
+func UseBloke():
+	#SetTurn(false)
+	selectedBloke.UseBloke()
+	cardsInHand.erase(selectedBloke)
+	remove_child(selectedBloke)
+	Deck.Discard(selectedBloke)
+	for i in range(cardsInHand.size()):
+		cardsInHand[i].set_position($hand.global_position + (i * Vector2(100,0)))
+	ToggleUseBloke(false)
+func RollDice():
+	AddPoints(randi_range(1,6))
 func AddPoints(morePoints):
-	points += points
+	points += morePoints
 func GetScore():
 	return points
+func SetTurn(turn):
+	playerTurn = turn
+	if(turn):
+		$PlayerHUD.show()
+	else:
+		$PlayerHUD.hide()
+func ToggleUseBloke(showing):
+	if(showing):
+		$PlayerHUD/UseBloke.show()
+	else:
+		$PlayerHUD/UseBloke.hide()
+func SetSelectedBloke(bloke):
+	selectedBloke = bloke
+func SetPlayerID(ID):
+	playerID = ID
 "
 
 [node name="Player" type="Node2D"]
 script = SubResource("GDScript_dad2g")
+
+[node name="PlayerHUD" parent="." instance=ExtResource("1_s446i")]
+
+[node name="hand" type="Node2D" parent="."]
+position = Vector2(57, 538)
+
+[node name="ScoreBoard" type="Label" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 1188.0
+offset_top = 286.0
+offset_right = 1276.0
+offset_bottom = 387.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Your Score:
+
+Player2:
+Player"

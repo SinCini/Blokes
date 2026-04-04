@@ -57,25 +57,16 @@ tile_size = Vector2i(400, 585)
 sources/1 = SubResource("TileSetAtlasSource_pkk5e")
 
 [node name="Card" type="Node2D"]
-visible = false
 script = ExtResource("1_vxbsc")
 
-[node name="Select" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_top = 1.0
-offset_right = 101.0
-offset_bottom = 143.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="CardSprite" type="TileMap" parent="."]
+visible = false
 scale = Vector2(0.25, 0.25)
 tile_set = SubResource("TileSet_3ns8r")
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 196609, 2)
 
-[connection signal="pressed" from="Select" to="." method="_on_select_pressed"]
+[node name="Select" type="Button" parent="CardSprite"]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[connection signal="pressed" from="CardSprite/Select" to="." method="_on_select_pressed"]
