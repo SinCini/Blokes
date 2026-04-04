@@ -1,0 +1,119 @@
+[gd_scene load_steps=3 format=3 uid="uid://e82qvf4ncs3o"]
+
+[ext_resource type="Script" uid="uid://dp7r8wam2j5si" path="res://Scripts/MainMenu.gd" id="1_3rbaf"]
+[ext_resource type="Texture2D" uid="uid://bxm6cf470l735" path="res://icon.svg" id="2_in7i6"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_3rbaf")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="EnetMenu" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/EnetMenu"]
+layout_mode = 2
+text = "Blokes"
+horizontal_alignment = 1
+
+[node name="Join" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/EnetMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join"
+
+[node name="Settings" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/EnetMenu"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Instructions" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/EnetMenu"]
+layout_mode = 2
+text = "How to Play"
+
+[node name="Quit" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/EnetMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"
+
+[node name="TubeMenu" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+layout_mode = 2
+text = "Blokes"
+horizontal_alignment = 1
+
+[node name="LabelSessionID" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+layout_mode = 2
+text = "Session ID:"
+horizontal_alignment = 1
+
+[node name="LineEditID" type="LineEdit" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LabelUserName" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+layout_mode = 2
+text = "Username:"
+horizontal_alignment = 1
+
+[node name="LineEditName" type="LineEdit" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+max_length = 12
+
+[node name="HSeparator" type="HSeparator" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="JoinTube" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join"
+
+[node name="Settings" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Instructions" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+layout_mode = 2
+text = "How to Play"
+
+[node name="QuitTube" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"
+
+[node name="ButtonCreateTube" type="Button" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TubeMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 24
+text = "Create Session"
+icon = ExtResource("2_in7i6")

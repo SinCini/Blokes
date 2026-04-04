@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dayog1o1ysthj"]
 
-[ext_resource type="PackedScene" uid="uid://c7yjc05hnyhd5" path="res://PlayerHUD.tscn" id="1_s446i"]
+[ext_resource type="PackedScene" uid="uid://c7yjc05hnyhd5" path="res://Scenes/PlayerHUD.tscn" id="1_s446i"]
 
 [sub_resource type="GDScript" id="GDScript_dad2g"]
 resource_name = "PlayerScript"
@@ -16,9 +16,12 @@ var drawBloke = false
 var rollDice = false
 var playerTurn = false
 var selectedBloke
+func _enter_tree() -> void:
+	set_multiplayer_authority(int(name))
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	GameScene = get_parent()
+	add_to_group(\"Players\")
+	GameScene = get_parent().get_node(\"GameScene\")
 	Deck = GameScene.GetDeck()
 	pass # Replace with function body.
 func Draw():
@@ -30,13 +33,14 @@ func Draw():
 		cardsInHand.append(newCard)
 		newCard.show()
 		newCard.set_position(position)
-		#SetTurn(false)
+		SetTurn(false)
 		newCard.SetActive(true)
 	else:
 		Deck = GameScene.GetDeck()
 		Draw()
 func UseBloke():
-	#SetTurn(false)
+	SetTurn(false)
+	#if(true):
 	selectedBloke.UseBloke()
 	cardsInHand.erase(selectedBloke)
 	remove_child(selectedBloke)
@@ -45,6 +49,7 @@ func UseBloke():
 		cardsInHand[i].set_position($hand.global_position + (i * Vector2(100,0)))
 	ToggleUseBloke(false)
 func RollDice():
+	SetTurn(false)
 	AddPoints(randi_range(1,6))
 func AddPoints(morePoints):
 	points += morePoints

@@ -21,7 +21,8 @@ func _enter_tree():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if(setsTime || changesTime):
-		timer = get_tree().current_scene.GetGameTimer()
+		timer = parent.get_parent().GetGameTimer()
+		pass
 func UseBloke():
 	if(cardName.contains("No")):
 		#Disable previous bloke

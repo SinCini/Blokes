@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://dx5ihryi1bftu"]
+
+[ext_resource type="Script" path="res://Scripts/Multiplayer.gd" id="1_yoybw"]
+
+[node name="MutiplayerHandler" type="Node2D"]
+script = ExtResource("1_yoybw")
+
+[node name="HostButton" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Join"
+
+[node name="JoinButton" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Join"
+
+[connection signal="pressed" from="HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="JoinButton" to="." method="_on_join_button_pressed"]

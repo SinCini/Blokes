@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqllxpvpc6dqt"]
+[gd_scene load_steps=6 format=3 uid="uid://cqllxpvpc6dqt"]
 
-[ext_resource type="PackedScene" uid="uid://dayog1o1ysthj" path="res://Player.tscn" id="1_sqdgy"]
-[ext_resource type="PackedScene" uid="uid://d0vnu4ihig770" path="res://card_deck.tscn" id="2_ds3pb"]
-[ext_resource type="PackedScene" uid="uid://fae1ginrqoex" path="res://GameHUD.tscn" id="3_hxwkt"]
+[ext_resource type="PackedScene" uid="uid://dayog1o1ysthj" path="res://Scenes/Player.tscn" id="1_q6wlo"]
+[ext_resource type="PackedScene" uid="uid://d0vnu4ihig770" path="res://Scenes/card_deck.tscn" id="2_p3rd3"]
+[ext_resource type="PackedScene" uid="uid://fae1ginrqoex" path="res://Scenes/GameHUD.tscn" id="3_hxwkt"]
 
 [sub_resource type="GDScript" id="GDScript_d4mfh"]
 script/source = "extends Node
@@ -13,7 +13,7 @@ var LobbySize
 var playersInGame = []
 var winner = null
 var cardDeck
-var lastPlayedBloke = null
+var lastBlokePlayed = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	cardDeck = card_deck.instantiate()
@@ -35,6 +35,8 @@ func GameOver():
 	return localWinner
 func GetDeck():
 	return cardDeck
+func SetLastBlokePlayed(card):
+	lastBlokePlayed = card
 func _on_game_timer_timeout():
 	GameOver()
 func _on_player_idletimer_timeout():
@@ -49,12 +51,15 @@ func AddPlayer():
 	playersInGame.append(newPlayer)
 "
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6h5vk"]
+properties/0/path = NodePath("GameTimer:wait_time")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="GameScene" type="Node"]
 script = SubResource("GDScript_d4mfh")
-Player = ExtResource("1_sqdgy")
-card_deck = ExtResource("2_ds3pb")
-
-[node name="Player" parent="." instance=ExtResource("1_sqdgy")]
+Player = ExtResource("1_q6wlo")
+card_deck = ExtResource("2_p3rd3")
 
 [node name="GameTimer" type="Timer" parent="."]
 wait_time = 120.0
@@ -66,6 +71,9 @@ autostart = true
 [node name="GameHUD" parent="." instance=ExtResource("3_hxwkt")]
 
 [node name="NextTurnTimer" type="Timer" parent="."]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_6h5vk")
 
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="timeout" from="PlayerIdletimer" to="." method="_on_player_idletimer_timeout"]

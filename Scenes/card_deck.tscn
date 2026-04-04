@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d0vnu4ihig770"]
 
-[ext_resource type="PackedScene" uid="uid://cp2enwvmyidic" path="res://card.tscn" id="1_bjc14"]
+[ext_resource type="PackedScene" uid="uid://cp2enwvmyidic" path="res://Scenes/card.tscn" id="1_bjc14"]
 [ext_resource type="Texture2D" uid="uid://cug4uk7edur0h" path="res://F8tuCZwWIAA6UH2.png" id="2_tx2de"]
 
 [sub_resource type="GDScript" id="GDScript_bhann"]
@@ -47,12 +47,6 @@ var CardsInDeck = []
 var CardsInDiscard = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(cardNames.size())
-	print(pointValues.size())
-	print(timeValues.size())
-	print(changeTimeBool.size())
-	print(setTimeBool.size())
-	print(useD6.size())	
 	FillDeck()
 	ShuffleDeck()
 	pass # Replace with function body.
@@ -60,6 +54,7 @@ func FillDeck():
 	var newCard
 	for i in range(cardNames.size()):
 		newCard = card_scene.instantiate()
+		newCard.name = newCard.GetCardName()
 		newCard.SetValues(cardNames[i], pointValues[i], timeValues[i],changeTimeBool[i],setTimeBool[i],useD6[i])
 		add_child(newCard)
 		newCard.SetSprite(i%10, i/10)
@@ -68,7 +63,6 @@ func FillDeck():
 	SetDeckText()
 func ShuffleDeck():
 	CardsInDeck.shuffle()
-	pass
 func DrawCard():
 	var currentCard = CardsInDeck.pop_front()
 	remove_child(currentCard)
@@ -79,7 +73,7 @@ func DrawCard():
 func Discard(card):
 	var cardName = card.GetCardName()
 	add_child(card)
-	if(cardName == \"Nei's a Deal\" || cardName == \"Investin' Bendan\"):
+	if(cardName == \"Neil's a Deal\" || cardName == \"Investin' Bendan\"):
 		card.queue_free()
 	else:	
 		CardsInDiscard.append(card)

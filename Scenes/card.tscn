@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cp2enwvmyidic"]
 
-[ext_resource type="Script" path="res://BaseCardScript.gd" id="1_vxbsc"]
+[ext_resource type="Script" path="res://Scripts/BaseCardScript.gd" id="1_vxbsc"]
 [ext_resource type="Texture2D" uid="uid://odv1xydeu2ar" path="res://F8t0SukXYAAijje.jpg" id="2_bg3kk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pkk5e"]
