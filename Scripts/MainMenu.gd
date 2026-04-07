@@ -25,11 +25,13 @@ func _ready():
 		await get_tree().create_timer(0.1).timeout
 		AddGameBoard()
 		hide()
+		print("Game Menu should be hidden")
 	
 func On_Join():
 	AddGameBoard()
 	Multiplayer.Join_Server()
 	hide()
+	print("Game Menu should be hidden")
 
 func AddGameBoard():
 	var new_gameBoard = GAME_BOARD.instantiate()
@@ -41,13 +43,14 @@ func Update_ID(new_text: String):
 func Update_Username(new_text: String):
 	Global.username = new_text
 func On_Join_Tube():
-	Multiplayer.Tube_Join(%LineEditID.txt)
+	Multiplayer.Tube_Join(%LineEditID.text)
 	multiplayer.connected_to_server.connect(AddGameBoard)
-	pass
+	hide()
+
 func On_Create_Tube():
 	AddGameBoard()
 	Multiplayer.Tube_Create()
-
+	hide()
 
 func on_error_raised(_code, _message):
 	%LineEditID.text =''

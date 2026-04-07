@@ -8,59 +8,73 @@ var parent
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	parent = get_parent()
-	pass # Replace with function body.
+	%LabelSession.text =  Multiplayer.tube_client.session_id
+	%ButtonCopySession.pressed.connect(func(): DisplayServer.clipboard_set(Multiplayer.tube_client.session_id))
+	DisplayServer.clipboard_set(Multiplayer.tube_client.session_id)
+
 func _on_draw_bloke_pressed():
-	parent.Draw()
-	pass # Replace with function body.
+	parent.DrawButton()
+
 func _on_use_bloke_pressed():
 	parent.UseBloke()
-	pass # Replace with function body.
+
 func _on_roll_dice_pressed():
 	parent.RollDice()
-	pass # Replace with function body.
 "
 
-[node name="PlayerHUD" type="CanvasLayer"]
+[node name="GamePlayerHUD" type="CanvasLayer"]
+layer = -1
 script = SubResource("GDScript_fqin5")
 
-[node name="DrawBloke" type="Button" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 184.0
-offset_top = -241.0
-offset_right = 234.0
-offset_bottom = -210.0
-grow_vertical = 0
-text = "Draw"
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="UseBloke" type="Button" parent="."]
-visible = false
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 261.0
-offset_top = -233.0
-offset_right = 346.0
-offset_bottom = -202.0
+offset_top = -251.0
+offset_right = 218.0
+offset_bottom = -211.0
 grow_vertical = 0
-text = "Use Bloke"
 
-[node name="RollDice" type="Button" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 75.0
-offset_top = -240.0
-offset_right = 150.0
-offset_bottom = -209.0
-grow_vertical = 0
+[node name="RollDice" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
 text = "Roll Dice"
 
-[node name="Button" type="Button" parent="."]
+[node name="DrawBloke" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "Draw"
+
+[node name="UseBloke" type="Button" parent="Control/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Use Bloke"
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 
-[connection signal="pressed" from="DrawBloke" to="." method="_on_draw_bloke_pressed"]
-[connection signal="pressed" from="UseBloke" to="." method="_on_use_bloke_pressed"]
-[connection signal="pressed" from="RollDice" to="." method="_on_roll_dice_pressed"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LabelSession" type="Label" parent="Control/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ButtonCopySession" type="Button" parent="Control/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="pressed" from="Control/HBoxContainer/RollDice" to="." method="_on_roll_dice_pressed"]
+[connection signal="pressed" from="Control/HBoxContainer/DrawBloke" to="." method="_on_draw_bloke_pressed"]
+[connection signal="pressed" from="Control/HBoxContainer/UseBloke" to="." method="_on_use_bloke_pressed"]

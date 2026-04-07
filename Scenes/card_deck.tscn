@@ -54,17 +54,20 @@ func FillDeck():
 	var newCard
 	for i in range(cardNames.size()):
 		newCard = card_scene.instantiate()
-		newCard.name = newCard.GetCardName()
 		newCard.SetValues(cardNames[i], pointValues[i], timeValues[i],changeTimeBool[i],setTimeBool[i],useD6[i])
-		add_child(newCard)
+		newCard.name = newCard.GetCardName()
+		add_child(newCard, true)
 		newCard.SetSprite(i%10, i/10)
 		CardsInDeck.append(newCard)
 		newCard.position = $Deck.position
 	SetDeckText()
 func ShuffleDeck():
 	CardsInDeck.shuffle()
-func DrawCard():
-	var currentCard = CardsInDeck.pop_front()
+#@rpc(\"any_peer\")
+func DrawCard(cardName):
+	var cardPosition = FindCard(cardName)
+	var currentCard = CardsInDeck[cardPosition]
+	CardsInDeck.remove_at(cardPosition)
 	remove_child(currentCard)
 	if(CardsInDeck.size() == 0):
 		RefillDeck()
@@ -84,12 +87,19 @@ func SetDeckText():
 	$DeckText.set_text(\"Deck: \" + str(CardsInDeck.size()))
 func SetDiscardText():
 	$DiscardText.set_text(\"Discard: \" + str(CardsInDiscard.size()))
+@rpc(\"any_peer\")
 func RefillDeck():
 	while(!CardsInDiscard.is_empty()):
 		CardsInDeck.append(CardsInDiscard.pop_front())
 	SetDiscardText()
 	ShuffleDeck()	
-	
+func GetTopCard():
+	return CardsInDeck.front().GetCardName()
+func FindCard(cardName):
+	str(\"finding card fr\")
+	for i in range(CardsInDeck.size()):
+		if(CardsInDeck[i].GetCardName() == cardName):
+			return i
 "
 
 [node name="CardDeck" type="Node2D"]

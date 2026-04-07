@@ -5,3 +5,7 @@
 [node name="Main" type="Node"]
 
 [node name="GameMenu" parent="." instance=ExtResource("1_mkdfg")]
+unique_name_in_owner = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_limit = 1

@@ -29,7 +29,7 @@ func UseBloke():
 		pass
 	if(usesPoints):
 		if(usesD6):
-			#roll dice depending on time value
+			#roll dice depending on point value
 			parent.AddPoints()
 		else:
 			parent.AddPoints(pointValue)
@@ -63,6 +63,12 @@ func SetActive(boolean):
 func GetCardName():
 	return cardName
 func _on_select_pressed():
+	SelectBlokeForAll(parent.GetPlayerID())
+	rpc("SelectBlokeForAll", parent.GetPlayerID())
+func SelectBlokeFunction():
 	parent.SetSelectedBloke(self)
 	parent.ToggleUseBloke(true)
-	pass # Replace with function body.
+@rpc("any_peer")
+func SelectBlokeForAll(playerId):
+	if(parent.playerID == playerId):
+		SelectBlokeFunction()

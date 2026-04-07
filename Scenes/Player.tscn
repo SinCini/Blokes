@@ -18,39 +18,81 @@ var playerTurn = false
 var selectedBloke
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name))
+	playerID = int(name)
+	if(playerID != multiplayer.get_unique_id()):
+		hide()
+		$PlayerHUD.hide()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_to_group(\"Players\")
+func _child_entered_tree():
 	GameScene = get_parent().get_node(\"GameScene\")
 	Deck = GameScene.GetDeck()
-	pass # Replace with function body.
-func Draw():
+	GameScene.AddPlayer(self)
+#region [Draw Functions]
+func DrawFunction(card):
+	#SetTurn(false)
 	if(Deck != null):
-		var position = $hand.global_position
-		position += (cardsInHand.size() * Vector2(100, 0))
-		var newCard = Deck.DrawCard()
-		add_child(newCard)
+		var handPosition = $hand.global_position
+		handPosition += (cardsInHand.size() * Vector2(100, 0))
+		var newCard = Deck.DrawCard(card)
+		add_child(newCard, true)
 		cardsInHand.append(newCard)
 		newCard.show()
-		newCard.set_position(position)
-		SetTurn(false)
+		newCard.set_position(handPosition)
 		newCard.SetActive(true)
 	else:
+		GameScene = get_parent().get_node(\"GameScene\")
 		Deck = GameScene.GetDeck()
-		Draw()
-func UseBloke():
-	SetTurn(false)
-	#if(true):
+		DrawFunction(card)
+func DrawButton():
+	if(Deck != null):
+		var cardName = Deck.GetTopCard()
+		DrawForAll(playerID, cardName)
+		rpc(\"DrawForAll\", playerID, cardName)
+	else:
+		GameScene = get_parent().get_node(\"GameScene\")
+		Deck = GameScene.GetDeck()
+		DrawButton()
+@rpc(\"any_peer\")
+func DrawForAll(playerId, cardName):
+	if(playerID == playerId):
+		DrawFunction(cardName)
+#endregion
+
+#region [UseBloke Functions]
+func UseBlokeFunction():
+	#SetTurn(false)
 	selectedBloke.UseBloke()
 	cardsInHand.erase(selectedBloke)
 	remove_child(selectedBloke)
 	Deck.Discard(selectedBloke)
+	Deck.rpc(\"Discard\", selectedBloke)
 	for i in range(cardsInHand.size()):
 		cardsInHand[i].set_position($hand.global_position + (i * Vector2(100,0)))
 	ToggleUseBloke(false)
+func UseBloke():
+	UseBlokeForAll(playerID)
+	rpc(\"UseBlokeForAll\",playerID)
+@rpc('any_peer')
+func UseBlokeForAll(playerId):	
+	if(playerID == playerId):
+		UseBlokeFunction()
+		print(\"Bloke played in main instance\")
+func ToggleUseBloke(showing):
+	if(showing):
+		$PlayerHUD/Control/HBoxContainer/UseBloke.show()
+	else:
+		$PlayerHUD/Control/HBoxContainer/UseBloke.hide()
+
+func SetSelectedBloke(bloke):
+	selectedBloke = bloke
+#endregion
+#region [Roll Dice functions]
 func RollDice():
 	SetTurn(false)
 	AddPoints(randi_range(1,6))
+#endregion
 func AddPoints(morePoints):
 	points += morePoints
 func GetScore():
@@ -61,21 +103,16 @@ func SetTurn(turn):
 		$PlayerHUD.show()
 	else:
 		$PlayerHUD.hide()
-func ToggleUseBloke(showing):
-	if(showing):
-		$PlayerHUD/UseBloke.show()
-	else:
-		$PlayerHUD/UseBloke.hide()
-func SetSelectedBloke(bloke):
-	selectedBloke = bloke
-func SetPlayerID(ID):
-	playerID = ID
+func GetCardsInHand():
+	return cardsInHand.size()
+func GetPlayerID():
+	return playerID
 "
 
 [node name="Player" type="Node2D"]
 script = SubResource("GDScript_dad2g")
 
-[node name="PlayerHUD" parent="." instance=ExtResource("1_s446i")]
+[node name="GamePlayerHUD" parent="." instance=ExtResource("1_s446i")]
 
 [node name="hand" type="Node2D" parent="."]
 position = Vector2(57, 538)

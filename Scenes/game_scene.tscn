@@ -11,15 +11,17 @@ class_name gameScript
 @export var card_deck: PackedScene
 var LobbySize 
 var playersInGame = []
+var currentPlayerTurn = 0
 var winner = null
 var cardDeck
 var lastBlokePlayed = null
 # Called when the node enters the scene tree for the first time.
+func _enter_tree():
+	HideAll()
 func _ready():
 	cardDeck = card_deck.instantiate()
 	add_child(cardDeck)
 	$GameTimer.one_shot = true
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
@@ -45,35 +47,44 @@ func GetGameTime():
 	return $GameTimer.get_time_left()
 func GetGameTimer():
 	return $GameTimer
-func AddPlayer():
-	var newPlayer = Player.instantiate()
-	newPlayer.SetPlayerID(playersInGame.size())
-	playersInGame.append(newPlayer)
+func AddPlayer(player):
+	if(!playersInGame.find(player)):
+		playersInGame.append(player)
+func HideAll():
+	$GameTimer.hide()
+	$PlayerIdletimer.hide()
+	$GameHUD.hide()
+	$NextTurnTimer.hide()
+	pass
+func ShowAll():
+	$GameTimer.show()
+	$PlayerIdletimer.show()
+	$GameHUD.show()
+	$NextTurnTimer.show()
 "
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6h5vk"]
 properties/0/path = NodePath("GameTimer:wait_time")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 
 [node name="GameScene" type="Node"]
 script = SubResource("GDScript_d4mfh")
 Player = ExtResource("1_q6wlo")
 card_deck = ExtResource("2_p3rd3")
 
-[node name="GameTimer" type="Timer" parent="."]
-wait_time = 120.0
-one_shot = true
-autostart = true
+[node name="NextTurnTimer" type="Timer" parent="."]
 
 [node name="PlayerIdletimer" type="Timer" parent="."]
 
-[node name="GameHUD" parent="." instance=ExtResource("3_hxwkt")]
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 120.0
+one_shot = true
 
-[node name="NextTurnTimer" type="Timer" parent="."]
+[node name="GameHUD" parent="." instance=ExtResource("3_hxwkt")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_6h5vk")
 
-[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="timeout" from="PlayerIdletimer" to="." method="_on_player_idletimer_timeout"]
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]

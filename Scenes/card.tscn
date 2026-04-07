@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cp2enwvmyidic"]
 
-[ext_resource type="Script" path="res://Scripts/BaseCardScript.gd" id="1_vxbsc"]
+[ext_resource type="Script" uid="uid://dpsaokdfi0f3j" path="res://Scripts/BaseCardScript.gd" id="1_vxbsc"]
 [ext_resource type="Texture2D" uid="uid://odv1xydeu2ar" path="res://F8t0SukXYAAijje.jpg" id="2_bg3kk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pkk5e"]
@@ -68,7 +68,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_top = 1.0
 offset_right = 101.0
-offset_bottom = 143.0
+offset_bottom = 146.0
 grow_horizontal = 2
 grow_vertical = 2
 

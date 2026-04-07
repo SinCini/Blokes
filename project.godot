@@ -28,3 +28,7 @@ window/size/viewport_height=720
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/tube/plugin.cfg")
+
+[global_group]
+
+Players=""
