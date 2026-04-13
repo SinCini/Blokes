@@ -1,6 +1,338 @@
 [gd_scene load_steps=2 format=3 uid="uid://ddyaqgada6bkv"]
 
-[ext_resource type="Script" path="res://Scripts/game_lobby.gd" id="1_6270e"]
+[ext_resource type="Script" uid="uid://d05o74cjob7p" path="res://Scripts/game_lobby.gd" id="1_6270e"]
 
-[node name="GameLobby" type="Node2D"]
+[node name="GameLobby" type="CanvasLayer"]
 script = ExtResource("1_6270e")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LobbyInfo" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -58.0
+offset_right = 58.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/LobbyInfo"]
+layout_mode = 2
+
+[node name="LobbyLabel" type="Label" parent="Control/LobbyInfo/HBoxContainer"]
+layout_mode = 2
+text = "Lobby Code: "
+
+[node name="SessionIDLabel" type="Label" parent="Control/LobbyInfo/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "asdasda"
+
+[node name="CopySessionButton" type="Button" parent="Control/LobbyInfo/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerContainer" type="HBoxContainer" parent="Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -58.0
+offset_top = -20.0
+offset_right = 58.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VSeparator3" type="VSeparator" parent="Control/PlayerContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="PlayersLeft" type="VBoxContainer" parent="Control/PlayerContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="Player1" type="Panel" parent="Control/PlayerContainer/PlayersLeft" groups=["PlayerPlates"]]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Player1Name" type="Label" parent="Control/PlayerContainer/PlayersLeft/Player1" groups=["PlayerNames"]]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Host1Label" type="Label" parent="Control/PlayerContainer/PlayersLeft/Player1" groups=["Host"]]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Host"
+
+[node name="HSeparator1" type="HSeparator" parent="Control/PlayerContainer/PlayersLeft" groups=["Hseparators"]]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Player2" type="Panel" parent="Control/PlayerContainer/PlayersLeft" groups=["PlayerPlates"]]
+visible = false
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Player2Name" type="Label" parent="Control/PlayerContainer/PlayersLeft/Player2" groups=["PlayerNames"]]
+layout_mode = 1
+offset_top = 4.0
+offset_right = 40.0
+offset_bottom = 27.0
+
+[node name="Host2Label" type="Label" parent="Control/PlayerContainer/PlayersLeft/Player2" groups=["Host"]]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Host"
+
+[node name="Hseperator2" type="HSeparator" parent="Control/PlayerContainer/PlayersLeft" groups=["Hseparators", "PlayerNames", "PlayerPlates"]]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Player3" type="Panel" parent="Control/PlayerContainer/PlayersLeft" groups=["PlayerPlates"]]
+visible = false
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Player3Name" type="Label" parent="Control/PlayerContainer/PlayersLeft/Player3" groups=["PlayerNames"]]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 40.0
+offset_bottom = 27.0
+
+[node name="Host3Label" type="Label" parent="Control/PlayerContainer/PlayersLeft/Player3" groups=["Host"]]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Host"
+
+[node name="HSeparator3" type="HSeparator" parent="Control/PlayerContainer/PlayersLeft" groups=["Hseparators"]]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Player4" type="Panel" parent="Control/PlayerContainer/PlayersLeft" groups=["PlayerPlates"]]
+visible = false
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Player4Name" type="Label" parent="Control/PlayerContainer/PlayersLeft/Player4" groups=["PlayerNames"]]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Host4Label" type="Label" parent="Control/PlayerContainer/PlayersLeft/Player4" groups=["Host"]]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Host"
+
+[node name="MiddleSeperator" type="VSeparator" parent="Control/PlayerContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="PlayersRight" type="VBoxContainer" parent="Control/PlayerContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="Player5" type="Panel" parent="Control/PlayerContainer/PlayersRight" groups=["PlayerPlates"]]
+visible = false
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Player5Name" type="Label" parent="Control/PlayerContainer/PlayersRight/Player5" groups=["PlayerNames"]]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Host5Label" type="Label" parent="Control/PlayerContainer/PlayersRight/Player5" groups=["Host"]]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Host"
+
+[node name="HSeparator4" type="HSeparator" parent="Control/PlayerContainer/PlayersRight" groups=["Hseparators"]]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Player6" type="Panel" parent="Control/PlayerContainer/PlayersRight" groups=["PlayerPlates"]]
+visible = false
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Player6Name" type="Label" parent="Control/PlayerContainer/PlayersRight/Player6" groups=["PlayerNames"]]
+layout_mode = 1
+offset_top = 4.0
+offset_right = 40.0
+offset_bottom = 27.0
+
+[node name="Host6Label" type="Label" parent="Control/PlayerContainer/PlayersRight/Player6" groups=["Host"]]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Host"
+
+[node name="HSeparator5" type="HSeparator" parent="Control/PlayerContainer/PlayersRight" groups=["Hseparators"]]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Player7" type="Panel" parent="Control/PlayerContainer/PlayersRight" groups=["PlayerPlates"]]
+visible = false
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Player7Name" type="Label" parent="Control/PlayerContainer/PlayersRight/Player7" groups=["PlayerNames"]]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 40.0
+offset_bottom = 27.0
+
+[node name="Host7Label" type="Label" parent="Control/PlayerContainer/PlayersRight/Player7" groups=["Host"]]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Host"
+
+[node name="HSeparator6" type="HSeparator" parent="Control/PlayerContainer/PlayersRight" groups=["Hseparators"]]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Player8" type="Panel" parent="Control/PlayerContainer/PlayersRight" groups=["PlayerPlates"]]
+visible = false
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Player8Name" type="Label" parent="Control/PlayerContainer/PlayersRight/Player8" groups=["PlayerNames"]]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Host8Label" type="Label" parent="Control/PlayerContainer/PlayersRight/Player8" groups=["Host"]]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Host"
+
+[node name="VSeparator2" type="VSeparator" parent="Control/PlayerContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="LobbyButtons" type="MarginContainer" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -122.5
+offset_top = -71.0
+offset_right = 122.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/LobbyButtons"]
+layout_mode = 2
+
+[node name="StartGameButton" type="Button" parent="Control/LobbyButtons/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Game"
+
+[node name="LeaveLobbyButton" type="Button" parent="Control/LobbyButtons/HBoxContainer"]
+layout_mode = 2
+text = "Leave Lobby"
+
+[connection signal="pressed" from="Control/LobbyButtons/HBoxContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="Control/LobbyButtons/HBoxContainer/LeaveLobbyButton" to="." method="_on_leave_lobby_button_pressed"]

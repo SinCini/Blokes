@@ -57,7 +57,7 @@ func FillDeck():
 		newCard.SetValues(cardNames[i], pointValues[i], timeValues[i],changeTimeBool[i],setTimeBool[i],useD6[i])
 		newCard.name = newCard.GetCardName()
 		add_child(newCard, true)
-		newCard.SetSprite(i%10, i/10)
+		newCard.SetSprite(int(i%10), int(i/10))
 		CardsInDeck.append(newCard)
 		newCard.position = $Deck.position
 	SetDeckText()
@@ -96,7 +96,6 @@ func RefillDeck():
 func GetTopCard():
 	return CardsInDeck.front().GetCardName()
 func FindCard(cardName):
-	str(\"finding card fr\")
 	for i in range(CardsInDeck.size()):
 		if(CardsInDeck[i].GetCardName() == cardName):
 			return i

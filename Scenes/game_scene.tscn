@@ -5,12 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://fae1ginrqoex" path="res://Scenes/GameHUD.tscn" id="3_hxwkt"]
 
 [sub_resource type="GDScript" id="GDScript_d4mfh"]
-script/source = "extends Node
+script/source = "extends Node2D
 class_name gameScript
 @export var Player: PackedScene
 @export var card_deck: PackedScene
 var LobbySize 
 var playersInGame = []
+var playerScores = []
 var currentPlayerTurn = 0
 var winner = null
 var cardDeck
@@ -25,6 +26,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
+func StartGame():
+	$GameTimer.start(120)
+	show()
 func GameOver():
 	var localWinner = -1
 	var localScore = -1
@@ -51,16 +55,14 @@ func AddPlayer(player):
 	if(!playersInGame.find(player)):
 		playersInGame.append(player)
 func HideAll():
-	$GameTimer.hide()
-	$PlayerIdletimer.hide()
 	$GameHUD.hide()
-	$NextTurnTimer.hide()
 	pass
 func ShowAll():
-	$GameTimer.show()
-	$PlayerIdletimer.show()
 	$GameHUD.show()
-	$NextTurnTimer.show()
+func GetPlayersInGame():
+	return playersInGame
+func NextTurn(nextPlayer):
+	pass
 "
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6h5vk"]
@@ -68,7 +70,8 @@ properties/0/path = NodePath("GameTimer:wait_time")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
-[node name="GameScene" type="Node"]
+[node name="GameScene" type="Node2D"]
+visible = false
 script = SubResource("GDScript_d4mfh")
 Player = ExtResource("1_q6wlo")
 card_deck = ExtResource("2_p3rd3")

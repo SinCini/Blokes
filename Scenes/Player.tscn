@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dayog1o1ysthj"]
+[gd_scene load_steps=4 format=3 uid="uid://dayog1o1ysthj"]
 
 [ext_resource type="PackedScene" uid="uid://c7yjc05hnyhd5" path="res://Scenes/PlayerHUD.tscn" id="1_s446i"]
 
@@ -7,6 +7,7 @@ resource_name = "PlayerScript"
 script/source = "extends Node2D
 class_name Player
 var playerID
+var username
 var GameScene
 var Deck
 var cardsInHand = []
@@ -19,9 +20,11 @@ var selectedBloke
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name))
 	playerID = int(name)
+	if(playerID == multiplayer.get_unique_id()):
+		$Name.text = Global.username
 	if(playerID != multiplayer.get_unique_id()):
 		hide()
-		$PlayerHUD.hide()
+		$GamePlayerHUD.hide()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_to_group(\"Players\")
@@ -78,12 +81,11 @@ func UseBloke():
 func UseBlokeForAll(playerId):	
 	if(playerID == playerId):
 		UseBlokeFunction()
-		print(\"Bloke played in main instance\")
 func ToggleUseBloke(showing):
 	if(showing):
-		$PlayerHUD/Control/HBoxContainer/UseBloke.show()
+		$GamePlayerHUD/Control/HBoxContainer/UseBloke.show()
 	else:
-		$PlayerHUD/Control/HBoxContainer/UseBloke.hide()
+		$GamePlayerHUD/Control/HBoxContainer/UseBloke.hide()
 
 func SetSelectedBloke(bloke):
 	selectedBloke = bloke
@@ -100,36 +102,37 @@ func GetScore():
 func SetTurn(turn):
 	playerTurn = turn
 	if(turn):
-		$PlayerHUD.show()
+		$GamePlayerHUD.show()
 	else:
-		$PlayerHUD.hide()
+		$GamePlayerHUD.hide()
 func GetCardsInHand():
 	return cardsInHand.size()
 func GetPlayerID():
 	return playerID
+func GetName():
+	print(str(playerID) + \" \" + %Name.text)
+	return %Name.text
 "
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rpqav"]
+properties/0/path = NodePath("Name:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="Player" type="Node2D"]
 script = SubResource("GDScript_dad2g")
 
 [node name="GamePlayerHUD" parent="." instance=ExtResource("1_s446i")]
+visible = false
 
 [node name="hand" type="Node2D" parent="."]
 position = Vector2(57, 538)
 
-[node name="ScoreBoard" type="Label" parent="."]
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 1188.0
-offset_top = 286.0
-offset_right = 1276.0
-offset_bottom = 387.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "Your Score:
+[node name="Name" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
 
-Player2:
-Player"
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rpqav")

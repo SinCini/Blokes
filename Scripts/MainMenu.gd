@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const GAME_BOARD = preload("res://Scenes/game_scene.tscn")
-const PLAYER = preload("res://Scenes/Player.tscn")
+const GAME_LOBBY = preload("res://Scenes/game_lobby.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -25,17 +25,18 @@ func _ready():
 		await get_tree().create_timer(0.1).timeout
 		AddGameBoard()
 		hide()
-		print("Game Menu should be hidden")
 	
 func On_Join():
 	AddGameBoard()
 	Multiplayer.Join_Server()
 	hide()
-	print("Game Menu should be hidden")
 
 func AddGameBoard():
 	var new_gameBoard = GAME_BOARD.instantiate()
+	var new_gameLobby = GAME_LOBBY.instantiate()
 	get_tree().current_scene.add_child(new_gameBoard)
+	get_tree().current_scene.add_child(new_gameLobby)
+	Global.SetLobby()
 
 func Update_ID(new_text: String):
 	if(new_text != ''):
@@ -43,8 +44,9 @@ func Update_ID(new_text: String):
 func Update_Username(new_text: String):
 	Global.username = new_text
 func On_Join_Tube():
-	Multiplayer.Tube_Join(%LineEditID.text)
 	multiplayer.connected_to_server.connect(AddGameBoard)
+	Multiplayer.Tube_Join(%LineEditID.text)
+	
 	hide()
 
 func On_Create_Tube():

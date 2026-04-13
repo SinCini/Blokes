@@ -50,18 +50,22 @@ func Add_Player(peer_id: int):
 	var new_player = PLAYER.instantiate()
 	new_player.name = str(peer_id)
 	get_tree().current_scene.add_child(new_player, true)
+	Global.AddPlayer(new_player)
+	
 	
 func Remove_Player(peer_id):
 	if(peer_id == 1):
+		Global.ClearPlayers()
 		Leave_Server()
 		return
-		
+	Global.RemovePlayer(peer_id)
 	var players:Array[Node] = get_tree().get_nodes_in_group('Players')
 	var player_to_remove = players.find(func(item): return item.name == str(peer_id))
 	if(player_to_remove != -1):
 		players[player_to_remove].queue_free()
 func Leave_Server():
 	if(tube_enabled):
+		Global.ClearPlayers()
 		tube_client.leave_session()
 
 	multiplayer.multiplayer_peer.close()

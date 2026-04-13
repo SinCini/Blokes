@@ -11,7 +11,6 @@ func _ready():
 	%LabelSession.text =  Multiplayer.tube_client.session_id
 	%ButtonCopySession.pressed.connect(func(): DisplayServer.clipboard_set(Multiplayer.tube_client.session_id))
 	DisplayServer.clipboard_set(Multiplayer.tube_client.session_id)
-
 func _on_draw_bloke_pressed():
 	parent.DrawButton()
 
@@ -57,12 +56,8 @@ visible = false
 layout_mode = 2
 text = "Use Bloke"
 
-[node name="Button" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="Control"]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
